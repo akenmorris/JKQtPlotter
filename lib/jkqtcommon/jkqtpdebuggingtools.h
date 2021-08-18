@@ -1,3 +1,4 @@
+#include <stdexcept>
 /*
     Copyright (c) 2008-2019 Jan W. Krieger (<jan@jkrieger.de>, <j.krieger@dkfz.de>)
 

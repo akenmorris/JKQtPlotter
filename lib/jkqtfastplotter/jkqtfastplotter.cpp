@@ -29,7 +29,7 @@
 #include <QAction>
 #include <QApplication>
 #include <QClipboard>
-
+#include <QPainterPath>
 
 /**
  * \brief saves the given property (for which also a default_property exists) into the given settings object

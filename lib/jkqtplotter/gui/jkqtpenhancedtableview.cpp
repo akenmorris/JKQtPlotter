@@ -366,7 +366,7 @@ void JKQTPEnhancedTableView::keyPressEvent(QKeyEvent *event)
         print();
         event->accept();
     } else QTableView::keyPressEvent(event);
-    emit keyPressed(event->key(), event->modifiers(), event->text());
+    Q_EMIT keyPressed(event->key(), event->modifiers(), event->text());
 }
 
 

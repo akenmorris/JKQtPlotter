@@ -366,7 +366,7 @@ void JKQTBasePlotter::useAsInternalDatastore(JKQTPDatastore* newStore){
     }
     datastore=newStore;
     datastoreInternal=true;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::useInternalDatastore(){
@@ -374,7 +374,7 @@ void JKQTBasePlotter::useInternalDatastore(){
         datastore=new JKQTPDatastore();
         datastoreInternal=true;
     }
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::forceInternalDatastore(){
@@ -384,7 +384,7 @@ void JKQTBasePlotter::forceInternalDatastore(){
     }
     datastore=new JKQTPDatastore();
     datastoreInternal=true;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 bool JKQTBasePlotter::isEmittingSignalsEnabled() const {
@@ -421,7 +421,7 @@ void JKQTBasePlotter::initSettings() {
 
     plotLabel="";
 
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 
@@ -439,8 +439,8 @@ void JKQTBasePlotter::zoomIn(double factor) {
 
     xAxis->setRange(xmin, xmax);
     yAxis->setRange(ymin, ymax);
-    if (emitPlotSignals) emit plotUpdated();
-    if (emitSignals) emit zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
+    if (emitPlotSignals) Q_EMIT plotUpdated();
+    if (emitSignals) Q_EMIT zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
 }
 
 void JKQTBasePlotter::zoomOut(double factor) {
@@ -466,15 +466,15 @@ void JKQTBasePlotter::zoom(double nxmin, double nxmax, double nymin, double nyma
 
     xAxis->setRange(xmin, xmax);
     yAxis->setRange(ymin, ymax);
-    if (emitPlotSignals) emit plotUpdated();
-    if (emitSignals) emit zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
+    if (emitPlotSignals) Q_EMIT plotUpdated();
+    if (emitSignals) Q_EMIT zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
 }
 
 void JKQTBasePlotter::setWidgetSize(int wid, int heigh) {
     widgetWidth=wid;
     widgetHeight=heigh;
 
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 int JKQTBasePlotter::getWidth() {
@@ -532,12 +532,12 @@ void JKQTBasePlotter::clearGridPrintingPlotters() {
 
 void JKQTBasePlotter::setWidgetWidth(int wid) {
     widgetWidth=wid;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setWidgetHeight(int heigh) {
     widgetHeight=heigh;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::saveSettings(QSettings& settings, const QString& group) const{
@@ -599,7 +599,7 @@ void JKQTBasePlotter::propagateStyle() {
         }
     }
     emitPlotSignals=old;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::loadCurrentPlotterStyle(const QSettings &settings, const QString &group)
@@ -691,7 +691,7 @@ void JKQTBasePlotter::loadSettings(const QSettings &settings, const QString& gro
 
     loadUserSettings();
 
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 
@@ -704,7 +704,7 @@ void JKQTBasePlotter::setXY(double xminn, double xmaxx, double yminn, double yma
         double w=fabs(xmaxx-xminn)/axisAspectRatio;
         yAxis->setRange(mid-w/2.0, mid+w/2.0);
     }
-    if (emitSignals) emit zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
+    if (emitSignals) Q_EMIT zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
 }
 
 void JKQTBasePlotter::setX(double xminn, double xmaxx){
@@ -714,7 +714,7 @@ void JKQTBasePlotter::setX(double xminn, double xmaxx){
         double w=fabs(xmaxx-xminn)/axisAspectRatio;
         yAxis->setRange(mid-w/2.0, mid+w/2.0);
     }
-    if (emitSignals) emit zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
+    if (emitSignals) Q_EMIT zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
 }
 
 void JKQTBasePlotter::setY(double yminn, double ymaxx){
@@ -724,23 +724,23 @@ void JKQTBasePlotter::setY(double yminn, double ymaxx){
         double w=fabs(ymaxx-yminn)*axisAspectRatio;
         xAxis->setRange(mid-w/2.0, mid+w/2.0);
     }
-    if (emitSignals) emit zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
+    if (emitSignals) Q_EMIT zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
 }
 
 void JKQTBasePlotter::setAbsoluteX(double xminn, double xmaxx) {
     xAxis->setAbsoluteRange(xminn, xmaxx);
-    if (emitSignals) emit zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
+    if (emitSignals) Q_EMIT zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
 }
 
 void JKQTBasePlotter::setAbsoluteY(double yminn, double ymaxx) {
     yAxis->setAbsoluteRange(yminn, ymaxx);
-    if (emitSignals) emit zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
+    if (emitSignals) Q_EMIT zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
 }
 
 void JKQTBasePlotter::setAbsoluteXY(double xminn, double xmaxx, double yminn, double ymaxx) {
     xAxis->setAbsoluteRange(xminn, xmaxx);
     yAxis->setAbsoluteRange(yminn, ymaxx);
-    if (emitSignals) emit zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
+    if (emitSignals) Q_EMIT zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
 }
 
 void JKQTBasePlotter::calcPlotScaling(JKQTPEnhancedPainter& painter){
@@ -750,7 +750,7 @@ void JKQTBasePlotter::calcPlotScaling(JKQTPEnhancedPainter& painter){
 
     //qDebug()<<"this="<<this<<"  --> calcPlotScaling()";
 
-    if (emitSignals) emit beforePlotScalingRecalculate();
+    if (emitSignals) Q_EMIT beforePlotScalingRecalculate();
     //qDebug()<<"start JKQTBasePlotter::calcPlotScaling";
     // if the key is plotted outside , then we have to add place for it (i.e. change the plotBorders
     internalPlotBorderBottom=plotterStyle.plotBorderBottom;
@@ -940,8 +940,8 @@ void JKQTBasePlotter::calcPlotScaling(JKQTPEnhancedPainter& painter){
     }
 
 
-    //if (emitPlotSignals) emit plotScalingRecalculated();
-    emit plotScalingRecalculated();
+    //if (emitPlotSignals) Q_EMIT plotScalingRecalculated();
+    Q_EMIT plotScalingRecalculated();
 }
 
 
@@ -4076,31 +4076,31 @@ void JKQTBasePlotter::setPlotBorder(int left, int right, int top, int bottom){
     plotterStyle.plotBorderBottom=bottom;
     plotterStyle.plotBorderRight=right;
     //updateGeometry();
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setPlotBorderLeft(int left)
 {
     plotterStyle.plotBorderLeft=left;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setPlotBorderRight(int right)
 {
     plotterStyle.plotBorderRight=right;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setPlotBorderTop(int top)
 {
     plotterStyle.plotBorderTop=top;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setPlotBorderBottom(int bottom)
 {
     plotterStyle.plotBorderBottom=bottom;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::synchronizeToMaster(JKQTBasePlotter* master, SynchronizationDirection synchronizeDirection, bool synchronizeAxisLength, bool synchronizeZoomingMasterToSlave, bool synchronizeZoomingSlaveToMaster) {
@@ -4748,7 +4748,7 @@ void JKQTBasePlotter::zoomToFit(bool zoomX, bool zoomY, bool includeX0, bool inc
     }
     //std::cout<<"end of zoomToFit\n";
     //setXY(xxmin, xxmax, yymin, yymax);
-    if (emitSignals) emit zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
+    if (emitSignals) Q_EMIT zoomChangedLocally(xAxis->getMin(), xAxis->getMax(), yAxis->getMin(), yAxis->getMax(), this);
 }
 
 
@@ -4768,7 +4768,7 @@ void JKQTBasePlotter::deleteOverlayElement(size_t i, bool deletegraph) {
     JKQTPOverlayElement* g=overlays[static_cast<int>(i)];
     overlays.removeAt(static_cast<int>(i));
     if (deletegraph && g) delete g;
-    if (emitPlotSignals) emit overlaysUpdated();
+    if (emitPlotSignals) Q_EMIT overlaysUpdated();
 }
 
 void JKQTBasePlotter::deleteOverlayElement(JKQTPOverlayElement *gr, bool deletegraph) {
@@ -4779,7 +4779,7 @@ void JKQTBasePlotter::deleteOverlayElement(JKQTPOverlayElement *gr, bool deleteg
     }
 
     if (deletegraph && gr) delete gr;
-    if (emitPlotSignals) emit overlaysUpdated();
+    if (emitPlotSignals) Q_EMIT overlaysUpdated();
 }
 
 void JKQTBasePlotter::clearOverlayElement(bool deleteGraphs) {
@@ -4788,7 +4788,7 @@ void JKQTBasePlotter::clearOverlayElement(bool deleteGraphs) {
         if (g && deleteGraphs) delete g;
     }
     overlays.clear();
-    if (emitPlotSignals) emit overlaysUpdated();
+    if (emitPlotSignals) Q_EMIT overlaysUpdated();
 }
 
 size_t JKQTBasePlotter::addOverlayElement(JKQTPOverlayElement *gr) {
@@ -4797,7 +4797,7 @@ size_t JKQTBasePlotter::addOverlayElement(JKQTPOverlayElement *gr) {
         if (overlays[static_cast<int>(i)]==gr) return i;
     }
     overlays.push_back(gr);
-    if (emitPlotSignals) emit overlaysUpdated();
+    if (emitPlotSignals) Q_EMIT overlaysUpdated();
     return static_cast<size_t>(overlays.size()-1);
 }
 
@@ -4822,7 +4822,7 @@ size_t JKQTBasePlotter::moveOverlayElementTop(JKQTPOverlayElement *gr) {
         }
     }
     overlays.push_back(gr);
-    if (emitPlotSignals) emit overlaysUpdated();
+    if (emitPlotSignals) Q_EMIT overlaysUpdated();
     return static_cast<size_t>(overlays.size()-1);
 }
 
@@ -4849,7 +4849,7 @@ void JKQTBasePlotter::deleteGraph(size_t i, bool deletegraph) {
     JKQTPPlotElement* g=graphs[static_cast<int>(i)];
     graphs.removeAt(static_cast<int>(i));
     if (deletegraph && g) delete g;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 };
 
 void JKQTBasePlotter::deleteGraph(JKQTPPlotElement* gr, bool deletegraph) {
@@ -4860,7 +4860,7 @@ void JKQTBasePlotter::deleteGraph(JKQTPPlotElement* gr, bool deletegraph) {
     }
 
     if (deletegraph && gr) delete gr;
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::clearGraphs(bool deleteGraphs) {
@@ -4870,7 +4870,7 @@ void JKQTBasePlotter::clearGraphs(bool deleteGraphs) {
     }
     graphs.clear();
     usedStyles.clear();
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setAllGraphsInvisible()
@@ -4879,7 +4879,7 @@ void JKQTBasePlotter::setAllGraphsInvisible()
         JKQTPPlotElement* g=graphs[i];
         g->setVisible(false);
     }
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setAllGraphsVisible()
@@ -4888,14 +4888,14 @@ void JKQTBasePlotter::setAllGraphsVisible()
         JKQTPPlotElement* g=graphs[i];
         g->setVisible(true);
     }
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setGraphVisible(int i, bool visible)
 {
     JKQTPPlotElement* g=graphs.value(i, nullptr);
     if (g) g->setVisible(visible);
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setOnlyGraphVisible(int gr)
@@ -4906,7 +4906,7 @@ void JKQTBasePlotter::setOnlyGraphVisible(int gr)
     }
     JKQTPPlotElement* g=graphs.value(gr, nullptr);
     if (g) g->setVisible(true);
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 void JKQTBasePlotter::setOnlyNthGraphsVisible(int start, int n)
@@ -4919,7 +4919,7 @@ void JKQTBasePlotter::setOnlyNthGraphsVisible(int start, int n)
         JKQTPPlotElement* g=graphs.value(i, nullptr);
         if (g) g->setVisible(true);
     }
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
 }
 
 size_t JKQTBasePlotter::addGraph(JKQTPPlotElement* gr) {
@@ -4928,7 +4928,7 @@ size_t JKQTBasePlotter::addGraph(JKQTPPlotElement* gr) {
         if (graphs[i]==gr) return static_cast<size_t>(i);
     }
     graphs.push_back(gr);
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
     return static_cast<size_t>(graphs.size()-1);
 };
 
@@ -4944,7 +4944,7 @@ size_t JKQTBasePlotter::moveGraphTop(JKQTPPlotElement* gr) {
         }
     }
     graphs.push_back(gr);
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
     return static_cast<size_t>(graphs.size()-1);
 }
 
@@ -4961,7 +4961,7 @@ size_t JKQTBasePlotter::moveGraphBottom(JKQTPPlotElement *gr)
         }
     }
     graphs.push_front(gr);
-    if (emitPlotSignals) emit plotUpdated();
+    if (emitPlotSignals) Q_EMIT plotUpdated();
     return static_cast<size_t>(graphs.size()-1);
 };
 

@@ -40,7 +40,7 @@ JKQTPEnhancedDoubleSpinBox::~JKQTPEnhancedDoubleSpinBox()
 
 void JKQTPEnhancedDoubleSpinBox::intEditingFinished()
 {
-    emit editingFinished(value());
+    Q_EMIT editingFinished(value());
 }
 
 
@@ -57,7 +57,7 @@ JKQTPEnhancedSpinBox::~JKQTPEnhancedSpinBox()
 
 void JKQTPEnhancedSpinBox::intEditingFinished()
 {
-    emit editingFinished(value());
+    Q_EMIT editingFinished(value());
 }
 
 

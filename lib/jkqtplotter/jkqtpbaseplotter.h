@@ -658,7 +658,7 @@ class JKQTPLOTTER_LIB_EXPORT JKQTBasePlotter: public QObject {
         void drawNonGridOverlays(JKQTPEnhancedPainter &painter, const QPoint& pos=QPoint(0,0));
 
         /** \brief emit plotUpdated() */
-        void redrawPlot() { if (emitPlotSignals) emit plotUpdated(); }
+        void redrawPlot() { if (emitPlotSignals) Q_EMIT plotUpdated(); }
 
         /** \brief controls, whether the signals plotUpdated() and overlaysUpdated() are emitted */
         void setEmittingPlotSignalsEnabled(bool __value);
@@ -1127,7 +1127,7 @@ class JKQTPLOTTER_LIB_EXPORT JKQTBasePlotter: public QObject {
 
 
 
-    signals:
+    Q_SIGNALS:
         /** \brief signal: emitted whenever the user selects a new x-y zoom range (by mouse) */
         void zoomChangedLocally(double newxmin, double newxmax, double newymin, double newymax, JKQTBasePlotter* sender);
 
@@ -1144,7 +1144,7 @@ class JKQTPLOTTER_LIB_EXPORT JKQTBasePlotter: public QObject {
         void beforePlotScalingRecalculate();
 
 
-    public slots:
+    public Q_SLOTS:
 
 
         /** \brief sets the width of the plot widget
@@ -1719,7 +1719,7 @@ class JKQTPLOTTER_LIB_EXPORT JKQTBasePlotter: public QObject {
         double getPaintMagnification() const;
 
 
-    protected slots:
+    protected Q_SLOTS:
         /** \brief internal function for print/export preview
          * \internal
          */

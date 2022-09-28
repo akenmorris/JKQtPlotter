@@ -909,7 +909,7 @@ class JKQTPLOTTER_LIB_EXPORT JKQTPlotter: public QWidget {
         QAction *getActMouseLeftAsPanView() const;
 
 
-    public slots:
+    public Q_SLOTS:
         /** \brief set the current plot magnification */
         void setMagnification(double m);
         /** \brief sets x/ymin and x/ymax to the supplied values and replots the graph (zoom operation!) */
@@ -1229,7 +1229,7 @@ class JKQTPLOTTER_LIB_EXPORT JKQTPlotter: public QWidget {
          */
          inline void setXY(double xminn, double xmaxx, double yminn, double ymaxx) { plotter->setXY(xminn, xmaxx, yminn, ymaxx); }
 
-    signals:
+    Q_SIGNALS:
         /** \brief emitted whenever the mouse moves
          *
          * \param x x-position of the mouse (in plot coordinates)
@@ -1686,7 +1686,7 @@ class JKQTPLOTTER_LIB_EXPORT JKQTPlotter: public QWidget {
         /** \brief action that activates the pan view tool (override!)  */
         QAction* actMouseLeftAsPanView;
 
-    protected slots:
+ protected Q_SLOTS:
         /** \brief while the window is resized, the plot is only redrawn after a restartable delay, implemented by this function and resizeTimer
         * \internal
         * \see resizeTimer

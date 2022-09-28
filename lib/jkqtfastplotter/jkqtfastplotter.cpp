@@ -213,8 +213,8 @@ void JKQTFastPlotter::mouseDoubleClickEvent ( QMouseEvent * event ) {
    if (event->button()==Qt::LeftButton) {
         double x=p2x(event->x());
         double y=p2y(event->y());
-        emit doubleClicked(x, y);
-        emit doubleClicked(x, y, event->modifiers());
+        Q_EMIT doubleClicked(x, y);
+        Q_EMIT doubleClicked(x, y, event->modifiers());
         event->accept();
    }
 }
@@ -222,7 +222,7 @@ void JKQTFastPlotter::mouseDoubleClickEvent ( QMouseEvent * event ) {
 void JKQTFastPlotter::mouseMoveEvent ( QMouseEvent * event ) {
     double x=p2x(event->x());
     double y=p2y(event->y());
-    emit mouseMoved(x, y);
+    Q_EMIT mouseMoved(x, y);
     //qDebug()<<"JKQTFastPlotter::mouseMoveEvent  "<<x<<y;
     if (event->buttons()&Qt::LeftButton) {
         dragging=true;
@@ -230,7 +230,7 @@ void JKQTFastPlotter::mouseMoveEvent ( QMouseEvent * event ) {
         double yd=p2y(mouseDragStart.y());
         mouseDragEnd=event->pos();
         //qDebug()<<"JKQTFastPlotter::mouseMoveEvent: dragged:  "<<xd<<yd<<x<<y;
-        emit mouseDragged(xd, yd, x, y, event->modifiers());
+        Q_EMIT mouseDragged(xd, yd, x, y, event->modifiers());
         if (dragLine) update();
     }
     event->accept();
@@ -240,8 +240,8 @@ void JKQTFastPlotter::mousePressEvent ( QMouseEvent * event ) {
    if (event->button()==Qt::LeftButton) {
         double x=p2x(event->x());
         double y=p2y(event->y());
-        emit clicked(x, y);
-        emit clicked(x, y, event->modifiers());
+        Q_EMIT clicked(x, y);
+        Q_EMIT clicked(x, y, event->modifiers());
         mouseDragStart=event->pos();
         event->accept();
    }
@@ -254,8 +254,8 @@ void JKQTFastPlotter::mouseReleaseEvent(QMouseEvent *event)
         double yd=p2y(mouseDragStart.y());
         double x=p2x(event->x());
         double y=p2y(event->y());
-        emit mouseDragged(xd, yd, x, y, event->modifiers());
-        emit mouseDragFinished(xd, yd, x, y, event->modifiers());
+        Q_EMIT mouseDragged(xd, yd, x, y, event->modifiers());
+        Q_EMIT mouseDragFinished(xd, yd, x, y, event->modifiers());
         dragging=false;
         if (dragLine) update();
     }
@@ -600,7 +600,7 @@ void JKQTFastPlotter::updateData() {
     if (!doDrawing) return;
     if (image.isNull()) return;
     mutexRepaintData.lock();
-    emit replotting();
+    Q_EMIT replotting();
     image=systemImage;
     QPainter* painter=new QPainter(&image);
     //painter->setRenderHints(QPainter::HighQualityAntialiasing|QPainter::Antialiasing|QPainter::SmoothPixmapTransform);
@@ -625,7 +625,7 @@ void JKQTFastPlotter::updateDataImmediate() {
     if (!doDrawing) return;
     if (image.isNull()) return;
     mutexRepaintData.lock();
-    emit replotting();
+    Q_EMIT replotting();
     image=systemImage;
     QPainter* painter=new QPainter(&image);
     //painter->setRenderHints(QPainter::HighQualityAntialiasing|QPainter::Antialiasing|QPainter::SmoothPixmapTransform);
@@ -773,7 +773,7 @@ void JKQTFastPlotter::calcPlotScaling() {
 
     }
 
-    emit plotterSizesChanged();
+    Q_EMIT plotterSizesChanged();
 }
 
 void JKQTFastPlotter::setXRange(double min, double max, bool logarithmic) {

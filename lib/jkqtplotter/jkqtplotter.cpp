@@ -471,7 +471,7 @@ void JKQTPlotter::fillInternalStructForToolTipOfClosestDataPoint(double x0, doub
 
         if (emitEvent) {
             if (mouseDragMarkers.size()>0) {
-                emit tooltipDisplayed(posSyss[0].x(), posSyss[0].y(), entries, graphs);
+                Q_EMIT tooltipDisplayed(posSyss[0].x(), posSyss[0].y(), entries, graphs);
             }
         }
     }
@@ -712,7 +712,7 @@ void JKQTPlotter::mouseMoveEvent ( QMouseEvent * event ) {
 
             }
             if (currentMouseDragAction.mode==jkqtpmdaRuler) {
-                emit rulerDisplayed(mouseDragRectXStart, mouseDragRectYStart, mouseDragRectXEnd, mouseDragRectYEnd, event->modifiers());
+                Q_EMIT rulerDisplayed(mouseDragRectXStart, mouseDragRectYStart, mouseDragRectXEnd, mouseDragRectYEnd, event->modifiers());
 
             }
 
@@ -720,10 +720,10 @@ void JKQTPlotter::mouseMoveEvent ( QMouseEvent * event ) {
             event->accept();
             //std::cout<<mouseZoomingTStart<<" -- "<<mouseZoomingTEnd<<std::endl;
             if (currentMouseDragAction.mode==jkqtpmdaZoomByRectangle) {
-                emit plotNewZoomRectangle(mouseDragRectXStart, mouseDragRectXEnd, mouseDragRectYStart, mouseDragRectYEnd, event->modifiers());
+                Q_EMIT plotNewZoomRectangle(mouseDragRectXStart, mouseDragRectXEnd, mouseDragRectYStart, mouseDragRectYEnd, event->modifiers());
             }
             if ((currentMouseDragAction.mode==jkqtpmdaScribbleForEvents) && (jkqtp_approximatelyUnequal(mouseDragRectXStart,mouseDragRectXEnd) || jkqtp_approximatelyUnequal(mouseDragRectYStart,mouseDragRectYEnd)) ) {
-                emit userScribbleClick(mouseDragRectXEnd, mouseDragRectYEnd, event->modifiers(), false, false);
+                Q_EMIT userScribbleClick(mouseDragRectXEnd, mouseDragRectYEnd, event->modifiers(), false, false);
             }
             if ((currentMouseDragAction.mode==jkqtpmdaPanPlotOnMove) && (jkqtp_approximatelyUnequal(mouseDragRectXStart,mouseDragRectXEnd) || jkqtp_approximatelyUnequal(mouseDragRectYStart,mouseDragRectYEnd)) ) {
                 QRectF zoomRect= QRectF(QPointF(plotter->x2p(getXAxis()->getMin()),plotter->y2p(getYAxis()->getMax())), QPointF(plotter->x2p(getXAxis()->getMax()),plotter->y2p(getYAxis()->getMin())));
@@ -746,7 +746,7 @@ void JKQTPlotter::mouseMoveEvent ( QMouseEvent * event ) {
     // emit move signal, if event occured inside plot only
     if  ( (event->x()/magnification>=plotter->getInternalPlotBorderLeft()) && (event->x()/magnification<=plotter->getPlotWidth()+plotter->getInternalPlotBorderLeft())  &&
           ((event->y()-getPlotYOffset())/magnification>=plotter->getInternalPlotBorderTop()) && ((event->y()-getPlotYOffset())/magnification<=plotter->getPlotHeight()+plotter->getInternalPlotBorderTop()) ) {
-        emit plotMouseMove(plotter->p2x(event->x()/magnification), plotter->p2y((event->y()-getPlotYOffset())/magnification));
+        Q_EMIT plotMouseMove(plotter->p2x(event->x()/magnification), plotter->p2y((event->y()-getPlotYOffset())/magnification));
     }
     updateCursor();
 }
@@ -770,7 +770,7 @@ void JKQTPlotter::mousePressEvent ( QMouseEvent * event ){
         currentMouseDragAction=MouseDragAction(actionIT.key().first, actionIT.key().second, actionIT.value());
         mouseDragingRectangle=true;
         oldImage=image;
-        if (currentMouseDragAction.mode==jkqtpmdaScribbleForEvents) emit userScribbleClick(mouseDragRectXStart, mouseDragRectYStart, event->modifiers(), true, false);
+        if (currentMouseDragAction.mode==jkqtpmdaScribbleForEvents) Q_EMIT userScribbleClick(mouseDragRectXStart, mouseDragRectYStart, event->modifiers(), true, false);
         event->accept();
     } else if (event->button()==Qt::RightButton && event->modifiers()==Qt::NoModifier && contextMenuMode!=jkqtpcmmNoContextMenu) {
         mouseLastClickX=event->x();
@@ -782,7 +782,7 @@ void JKQTPlotter::mousePressEvent ( QMouseEvent * event ){
     // emit clicked signal, if event occured inside plot only
     if  ( (event->x()/magnification>=plotter->getInternalPlotBorderLeft()) && (event->x()/magnification<=plotter->getPlotWidth()+plotter->getInternalPlotBorderLeft())  &&
           ((event->y()-getPlotYOffset())/magnification>=plotter->getInternalPlotBorderTop()) && ((event->y()-getPlotYOffset())/magnification<=plotter->getPlotHeight()+plotter->getInternalPlotBorderTop()) ) {
-        emit plotMouseClicked(plotter->p2x(event->x()/magnification), plotter->p2y((event->y()-getPlotYOffset())/magnification), event->modifiers(), event->button());
+      Q_EMIT plotMouseClicked(plotter->p2x(event->x()/magnification), plotter->p2y((event->y()-getPlotYOffset())/magnification), event->modifiers(), event->button());
         event->accept();
     }
     updateCursor();
@@ -819,7 +819,7 @@ void JKQTPlotter::mouseReleaseEvent ( QMouseEvent * event ){
                 double ymin=mouseDragRectYStart;
                 double ymax=mouseDragRectYEnd;
 
-                emit zoomChangedLocally(xmin, xmax, ymin, ymax, this);
+                Q_EMIT zoomChangedLocally(xmin, xmax, ymin, ymax, this);
                 plotter->setXY(xmin, xmax, ymin, ymax);
             } else if (currentMouseDragAction.mode==jkqtpmdaPanPlotOnRelease) {
                 QRectF zoomRect= QRectF(QPointF(plotter->x2p(getXAxis()->getMin()),plotter->y2p(getYAxis()->getMax())), QPointF(plotter->x2p(getXAxis()->getMax()),plotter->y2p(getYAxis()->getMin())));
@@ -832,20 +832,20 @@ void JKQTPlotter::mouseReleaseEvent ( QMouseEvent * event ){
                 }
                 setXY(plotter->p2x(zoomRect.left()), plotter->p2x(zoomRect.right()), plotter->p2y(zoomRect.bottom()), plotter->p2y(zoomRect.top()));
             } else if (currentMouseDragAction.mode==jkqtpmdaDrawRectangleForEvent) {
-                emit userRectangleFinished(x1, y1, x2-x1, y2-y1, event->modifiers());
+                Q_EMIT userRectangleFinished(x1, y1, x2-x1, y2-y1, event->modifiers());
             } else if (currentMouseDragAction.mode==jkqtpmdaDrawCircleForEvent) {
-                emit userCircleFinished(x1, y1, qMin(fabs(x2-x1), fabs(y2-y1)), event->modifiers());
+                Q_EMIT userCircleFinished(x1, y1, qMin(fabs(x2-x1), fabs(y2-y1)), event->modifiers());
             } else if (currentMouseDragAction.mode==jkqtpmdaDrawEllipseForEvent) {
-                emit userEllipseFinished(x1, y1, fabs(x2-x1), fabs(y2-y1), event->modifiers());
+                Q_EMIT userEllipseFinished(x1, y1, fabs(x2-x1), fabs(y2-y1), event->modifiers());
             } else if (currentMouseDragAction.mode==jkqtpmdaDrawLineForEvent) {
-                emit userLineFinished(x1, y1, x2, y2, event->modifiers());
+                Q_EMIT userLineFinished(x1, y1, x2, y2, event->modifiers());
             }
         }
         if (currentMouseDragAction.mode!=jkqtpmdaZoomByRectangle && currentMouseDragAction.mode!=jkqtpmdaRuler && currentMouseDragAction.mode!=jkqtpmdaToolTipForClosestDataPoint) {
             update();
         }
         if (currentMouseDragAction.mode==jkqtpmdaScribbleForEvents) {
-            emit userScribbleClick(x1, y1, event->modifiers(), false, true);
+            Q_EMIT userScribbleClick(x1, y1, event->modifiers(), false, true);
         }
         event->accept();
     }
@@ -904,7 +904,7 @@ void JKQTPlotter::mouseDoubleClickEvent ( QMouseEvent * event ){
         mouseLastClickX=event->x();
         mouseLastClickY=event->y();
 
-        emit plotMouseDoubleClicked(plotter->p2x(event->x()/magnification), plotter->p2y((event->y()-getPlotYOffset())/magnification), event->modifiers(), event->button());
+        Q_EMIT plotMouseDoubleClicked(plotter->p2x(event->x()/magnification), plotter->p2y((event->y()-getPlotYOffset())/magnification), event->modifiers(), event->button());
 
     }
     event->accept();
@@ -977,7 +977,7 @@ void JKQTPlotter::wheelEvent ( QWheelEvent * event ) {
 
     event->accept();
 
-    emit plotMouseWheelOperated(plotter->p2x(event->x()), plotter->p2x(event->y()), event->modifiers(), event->angleDelta().x(), event->angleDelta().y());
+    Q_EMIT plotMouseWheelOperated(plotter->p2x(event->x()), plotter->p2x(event->y()), event->modifiers(), event->angleDelta().x(), event->angleDelta().y());
 
     updateCursor();
     currentMouseDragAction.clear();
@@ -1356,12 +1356,12 @@ bool JKQTPlotter::isPlotUpdateEnabled() const {
 }
 
 void JKQTPlotter::pzoomChangedLocally(double newxmin, double newxmax, double newymin, double newymax, JKQTBasePlotter* /*sender*/) {
-    emit zoomChangedLocally(newxmin, newxmax, newymin, newymax, this);
+    Q_EMIT zoomChangedLocally(newxmin, newxmax, newymin, newymax, this);
     minSize=QSizeF(plotter->getInternalPlotBorderLeft()+plotter->getInternalPlotBorderRight()+10, plotter->getInternalPlotBorderTop()+plotter->getInternalPlotBorderBottom()+10).toSize();
 }
 
 void JKQTPlotter::intBeforePlotScalingRecalculate() {
-    emit beforePlotScalingRecalculate();
+    Q_EMIT beforePlotScalingRecalculate();
 }
 
 void JKQTPlotter::reactGraphVisible(bool visible)
@@ -1592,7 +1592,7 @@ void JKQTPlotter::openStandardContextMenu(int x, int y)
     initContextMenu();
     contextMenu->popup(mapToGlobal(QPoint(x,y)));
     //qDebug()<<" -> "<<mapToGlobal(QPoint(x,y))<<contextMenu->size()<<contextMenu->pos()<<contextMenu->parent();
-    emit contextMenuOpened(mouseContextX, mouseContextY, contextMenu);
+    Q_EMIT contextMenuOpened(mouseContextX, mouseContextY, contextMenu);
     //qDebug()<<"openContextMenu("<<x<<y<<contextMenu<<") ... DONE";
 }
 
@@ -1628,7 +1628,7 @@ void JKQTPlotter::openSpecialContextMenu(int x, int y)
         contextMenu->popup(mapToGlobal(QPoint(x,y)));
         contextMenu->resize(contextMenu->sizeHint());
         //qDebug()<<" -> "<<mapToGlobal(QPoint(x,y))<<contextMenu->size()<<contextMenu->pos()<<contextMenu->parent();
-        emit contextMenuOpened(mouseContextX, mouseContextY, contextMenu);
+        Q_EMIT contextMenuOpened(mouseContextX, mouseContextY, contextMenu);
         //qDebug()<<"openSpecialContextMenu("<<x<<y<<contextMenu<<") ... DONE";
         */
 
@@ -1639,7 +1639,7 @@ void JKQTPlotter::openSpecialContextMenu(int x, int y)
         menuSpecialContextMenu->popup(mapToGlobal(QPoint(x,y)));
         menuSpecialContextMenu->resize(menuSpecialContextMenu->sizeHint());
         //qDebug()<<" -> "<<mapToGlobal(QPoint(x,y))<<menuSpecialContextMenu->size()<<menuSpecialContextMenu->pos()<<menuSpecialContextMenu->parent();
-        emit contextMenuOpened(mouseContextX, mouseContextY, menuSpecialContextMenu);
+        Q_EMIT contextMenuOpened(mouseContextX, mouseContextY, menuSpecialContextMenu);
         //qDebug()<<"openSpecialContextMenu("<<x<<y<<menuSpecialContextMenu<<") ... DONE";
     }
 }
@@ -1665,7 +1665,7 @@ void JKQTPlotter::openStandardAndSpecialContextMenu(int x, int y)
 
     contextMenu->popup(mapToGlobal(QPoint(x,y)));
     //qDebug()<<" -> "<<mapToGlobal(QPoint(x,y))<<contextMenu->size()<<contextMenu->pos()<<contextMenu->parent();
-    emit contextMenuOpened(mouseContextX, mouseContextY, contextMenu);
+    Q_EMIT contextMenuOpened(mouseContextX, mouseContextY, contextMenu);
     //qDebug()<<"openContextMenu("<<x<<y<<contextMenu<<") ... DONE";
 
 }

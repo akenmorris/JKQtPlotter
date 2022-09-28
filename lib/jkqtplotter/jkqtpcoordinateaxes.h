@@ -395,7 +395,7 @@ class JKQTPLOTTER_LIB_EXPORT JKQTPCoordinateAxis: public QObject {
         void saveCurrentAxisStyle(QSettings& settings, const QString& group="plot/axes/") const;
 
 
-    public slots:
+   public Q_SLOTS:
         /** \brief set range of plot axis */
         void setRange(double amin, double amax);
         /** \brief set absolute range of plot axis */

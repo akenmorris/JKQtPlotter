@@ -928,7 +928,7 @@ class JKQTFASTPLOTTER_LIB_EXPORT JKQTFastPlotter : public QGLWidget {
         /** \brief draw the contents onto any <a href="http://doc.qt.io/qt-5/qpainter.html">QPainter</a>, starting at (0,0), returns the size of the whole plot in \a size, if supplied with the supplied\a background color */
         void draw(QPainter* painter, QColor background, QSize* size);
 
-    signals:
+    Q_SIGNALS:
         /** \brief emitted whenever the graph sizes (borders, plotWidth, plotHeight) change*/
         void plotterSizesChanged();
         /** \brief emitted whenever the graph is replotted */
@@ -947,7 +947,7 @@ class JKQTFASTPLOTTER_LIB_EXPORT JKQTFastPlotter : public QGLWidget {
         void mouseDragged(double x_start, double y_start, double x_end, double y_end, Qt::KeyboardModifiers modifiers);
         /** \brief emitted after the mouse has been dragged with the left button clicked */
         void mouseDragFinished(double x_start, double y_start, double x_end, double y_end, Qt::KeyboardModifiers modifiers);
-    public slots:
+    public Q_SLOTS:
         /** \brief copy the current plot image to the clipboard */
         void copyImage();
         /** \brief replot everything (slowest possible plotting) */
@@ -1027,7 +1027,7 @@ class JKQTFASTPLOTTER_LIB_EXPORT JKQTFPPlot: public QObject {
 
         /** \brief start a replot of the parent widget */
         void replot();
-    public slots:
+    public Q_SLOTS:
         void setVisible(bool visible) { this->visible=visible; replot(); }
 
 };
@@ -1483,7 +1483,7 @@ class JKQTFASTPLOTTER_LIB_EXPORT JKQTFPXRangePlot: public JKQTFPPlot {
         {
             return this->showCenterline; 
         }
-    public slots:
+    public Q_SLOTS:
         void setCenterline(int centerline) {
             if (this->centerline!=centerline) {
                 this->centerline=centerline;
@@ -1647,7 +1647,7 @@ class JKQTFASTPLOTTER_LIB_EXPORT JKQTFPYRangePlot: public JKQTFPPlot {
         {
             return this->showCenterline; 
         }
-    public slots:
+    public Q_SLOTS:
         void setCenterline(int centerline) {
             if (this->centerline!=centerline) {
                 this->centerline=centerline;
@@ -2566,7 +2566,7 @@ class JKQTFASTPLOTTER_LIB_EXPORT JKQTFPimagePlot: public JKQTFPPlot {
             this->height=height;
             replot();
         }
-    public slots:
+    public Q_SLOT:
         void setRotation(int rotation) {
             if (this->rotation!=rotation) {
                 this->rotation=rotation;
@@ -2973,7 +2973,7 @@ class JKQTFASTPLOTTER_LIB_EXPORT JKQTFPRGBImageOverlayPlot: public JKQTFPPlot {
         void setImage(void* imageRed, JKQTFPImageFormat imageFormatRed, int width, int height, double xmin, double xmax, double ymin, double ymax);
         void setImage(void* imageRed, JKQTFPImageFormat imageFormatRed, void* imageGreen, JKQTFPImageFormat imageFormatGreen, int width, int height, double xmin, double xmax, double ymin, double ymax);
         void setImage(void* imageRed, JKQTFPImageFormat imageFormatRed, void* imageGreen, JKQTFPImageFormat imageFormatGreen, void* imageBlue, JKQTFPImageFormat imageFormatBlue, int width, int height, double xmin, double xmax, double ymin, double ymax);
-    public slots:
+    public Q_SLOTS:
         inline void setRotation(int rotation) {
             if (this->rotation!=rotation) {
                 this->rotation=rotation;
@@ -3234,7 +3234,7 @@ class JKQTFASTPLOTTER_LIB_EXPORT JKQTFPimageOverlayPlot: public JKQTFPPlot {
         inline QColor getColor() const { 
             return this->color; 
         }
-    public slots:
+    public Q_SLOTS:
         inline void setRotation(int rotation) {
             if (this->rotation!=rotation) {
                 this->rotation=rotation;
@@ -3366,7 +3366,7 @@ class JKQTFASTPLOTTER_LIB_EXPORT JKQTFPQScaleBarXPlot: public JKQTFPPlot {
         {
             return this->position; 
         }
-    public slots:
+    public Q_SLOTS:
         void setPosition(int pos) {
             setPosition(static_cast<Position>(pos));
         }

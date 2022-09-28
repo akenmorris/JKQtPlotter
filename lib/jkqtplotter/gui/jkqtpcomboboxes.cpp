@@ -67,7 +67,7 @@ void JKQTPMathImageColorPaletteComboBox::setCurrentColorPalette(JKQTPMathImageCo
 
 void JKQTPMathImageColorPaletteComboBox::intIndexChanged(int i)
 {
-    emit currentPaletteChanged(JKQTPMathImageColorPalette(i));
+    Q_EMIT currentPaletteChanged(JKQTPMathImageColorPalette(i));
 }
 
 
@@ -274,7 +274,7 @@ void JKQTPKeyPositionComboBox::addPosition(JKQTPKeyPosition position, const QStr
 
 void JKQTPKeyPositionComboBox::posChanged(int index)
 {
-    emit currentPositionChanged(String2JKQTPKeyPosition(itemData(index).toString()));
+    Q_EMIT currentPositionChanged(String2JKQTPKeyPosition(itemData(index).toString()));
 }
 
 JKQTPKeyLayoutComboBox::JKQTPKeyLayoutComboBox(QWidget *parent):
@@ -306,7 +306,7 @@ void JKQTPKeyLayoutComboBox::addKeyLayout(JKQTPKeyLayout position, const QString
 
 void JKQTPKeyLayoutComboBox::currentIndexChangedP(int index)
 {
-    emit currentLayoutChanged(String2JKQTPKeyLayout(itemData(index).toString()));
+    Q_EMIT currentLayoutChanged(String2JKQTPKeyLayout(itemData(index).toString()));
 }
 
 JKQTPLabelPositionComboBox::JKQTPLabelPositionComboBox(QWidget *parent):

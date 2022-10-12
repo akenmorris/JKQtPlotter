@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 # Project Name and Version
-project(JKQTPlotter LANGUAGES CXX VERSION 2019.11.3)
+project(JKQTPlotter LANGUAGES CXX VERSION 2022.10.12)
 
 add_definitions(-DQT_NO_KEYWORDS)
 

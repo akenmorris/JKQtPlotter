@@ -16,6 +16,9 @@ elseif(MSVC)
   add_definitions(/DNOMINMAX)
 endif()
 
-if(NOT APPLE)
-    set(CMAKE_INSTALL_RPATH $ORIGIN)
-endif()
+
+# akm: this seems to be causing a problem for us with Conda's 5.15.4 Qt
+# akm: See https://github.com/SCIInstitute/ShapeWorks/issues/1858
+#if(NOT APPLE)
+#    set(CMAKE_INSTALL_RPATH $ORIGIN)
+#endif()
